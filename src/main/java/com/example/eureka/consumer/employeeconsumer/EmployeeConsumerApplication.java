@@ -13,7 +13,12 @@ public class EmployeeConsumerApplication {
 		ConfigurableApplicationContext context = SpringApplication.run(EmployeeConsumerApplication.class, args);
 		ConsumerControllerClient client = context.getBean(ConsumerControllerClient.class);
 		System.out.println("client ===> "+client);
+		client.getEmployee();
 		client.getEmployeeWithDiscovery();
+
+		for (int i=0;i<100;i++) {
+			client.getEmployeeWithLoadBalancer();
+		}
 	}
 
 	@Bean
