@@ -1,5 +1,7 @@
 package com.example.eureka.consumer.employeeconsumer.controllers;
 
+import com.example.eureka.consumer.employeeconsumer.model.Employee;
+import com.example.eureka.consumer.employeeconsumer.services.RemoteCallService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -20,6 +22,9 @@ public class ConsumerControllerClient {
 
 	@Autowired
 	private LoadBalancerClient loadBalancerClient;
+
+	@Autowired
+	private RemoteCallService remoteCallService;
 
 	public void getEmployee() {
 		String baseUrl = "http://localhost:8080/employee";
@@ -63,6 +68,11 @@ public class ConsumerControllerClient {
 			e.printStackTrace();
 		}
 		System.out.println("With load balancer ribbon ====> "+responseEntity.getBody());
+	}
+
+	public void getEmployeeWithFeignClient() {
+		Employee employee = remoteCallService.getData();
+		System.out.println("employee with feighn client ===> "+employee);
 	}
 
 	private static HttpEntity<?> getHeaders() {
