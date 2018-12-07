@@ -23,6 +23,7 @@ public class EmployeeConsumerApplication {
 		}
 
 		client.getEmployeeWithFeignClient();
+		client.getEmployeeWithZuulDiscovery();
 	}
 
 	@Bean

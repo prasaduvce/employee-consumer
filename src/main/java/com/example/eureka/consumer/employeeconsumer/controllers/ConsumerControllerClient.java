@@ -55,6 +55,23 @@ public class ConsumerControllerClient {
 		System.out.println("With service discovery ===> "+responseEntity.getBody());
 	}
 
+	public void getEmployeeWithZuulDiscovery() {
+		List<ServiceInstance> instances = discoveryClient.getInstances("employee-zuul-service");
+		ServiceInstance serviceInstance = instances.get(0);
+
+		String baseUrl = serviceInstance.getUri().toString()+"/producer/employee";
+		System.out.println("baseUrl ===> "+baseUrl);
+		RestTemplate template = new RestTemplate();
+		ResponseEntity<String> responseEntity = null;
+
+		try {
+			responseEntity = template.exchange(baseUrl, HttpMethod.GET, getHeaders(), String.class);
+		} catch (RestClientException e) {
+			e.printStackTrace();
+		}
+		System.out.println("With zuul discovery ===> "+responseEntity.getBody());
+	}
+
 	public void getEmployeeWithLoadBalancer() {
 		ServiceInstance serviceInstance = loadBalancerClient.choose("employee-producer");
 
